@@ -1,38 +1,68 @@
-export default {
-  transactions: {
+import { OpenAPIV3 } from 'openapi-types';
+
+const transactionsPath: OpenAPIV3.PathsObject = {
+  '/transactions': {
     post: {
-      tags: ['transactions'],
-      summary: 'Criação de transaçãp',
-      operationId: '/transactions',
-      produces: ['application/json'],
-      parameters: [
-        {
-          in: 'body',
-          name: 'body',
-          description: 'Objeto mínimo para criação de um novo usuário',
-          required: true,
-          schema: {
-            type: 'object',
-            required: ['amount', 'userId', 'paymentMethod'],
-            properties: {
-              amount: { type: 'float' },
-              userId: { type: 'string' },
-              paymentMethod: { type: 'string' },
+      tags: ['/transactions'],
+      summary: 'Criação de transação',
+      operationId: 'create',
+      requestBody: {
+        required: true,
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              required: ['amount', 'userId', 'paymentMethod'],
+              properties: {
+                amount: { type: 'number' },
+                userId: { type: 'number' },
+                paymentMethod: { type: 'string' },
+              },
             },
           },
         },
-      ],
+      },
+      responses: {
+        '201': {
+          description: 'Sucesso',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  id: { type: 'integer' },
+                  amount: { type: 'number' },
+                  userId: { type: 'number' },
+                  paymentMethod: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    get: {
+      tags: ['/transactions'],
+      summary: 'Lista de transação',
+      operationId: '/transactions',
       responses: {
         '200': {
           description: 'Sucesso',
-          schema: {
-            type: 'object',
-            properties: {
-              id: { type: 'integer' },
-              amount: { type: 'float' },
-              email: { type: 'string' },
-              userId: { type: 'string' },
-              paymentMethod: { type: 'string' },
+          content: {
+            'application/json': {
+              schema: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  required: ['id', 'amount', 'userId', 'paymentMethod', 'code'],
+                  properties: {
+                    id: { type: 'integer' },
+                    amount: { type: 'number' },
+                    userId: { type: 'number' },
+                    paymentMethod: { type: 'string' },
+                  },
+                },
+              },
             },
           },
         },
@@ -40,3 +70,5 @@ export default {
     },
   },
 };
+
+export default transactionsPath;

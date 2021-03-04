@@ -1,9 +1,12 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { APP_FILTER } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BillingModule } from './billing/billing.module';
+import { openapiValidatorMiddleware } from './middlewares/openapi';
+import { OpenApiExceptionFilter } from './billing/filters/openapi';
 
 @Module({
   imports: [
@@ -20,6 +23,13 @@ import { BillingModule } from './billing/billing.module';
     BillingModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    { provide: APP_FILTER, useClass: OpenApiExceptionFilter },
+  ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(...openapiValidatorMiddleware).forRoutes('*');
+  }
+}

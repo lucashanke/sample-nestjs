@@ -33,6 +33,7 @@ export class TransactionEntity {
       this.paymentMethod,
       this.userId,
       this.timestamp,
+      this.id,
     );
   }
 }

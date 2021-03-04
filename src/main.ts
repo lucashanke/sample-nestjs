@@ -6,7 +6,6 @@ import { swaggerDocument } from './docs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use('/api-docs', serve, setup(swaggerDocument));
-
   await app.listen(3000);
 }
 bootstrap();
