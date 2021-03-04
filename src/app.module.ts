@@ -6,10 +6,17 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BillingModule } from './billing/billing.module';
 import { openapiValidatorMiddleware } from './middlewares/openapi';
-import { OpenApiExceptionFilter } from './billing/filters/openapi';
+import { OpenApiExceptionFilter } from './filters/openapi';
+import { PromModule } from '@digikare/nestjs-prom';
 
 @Module({
   imports: [
+    PromModule.forRoot({
+      defaultLabels: {
+        app: 'sample',
+        version: '0.0.1',
+      },
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
