@@ -8,10 +8,10 @@ export class TransactionsController {
 
   @Post()
   async create(
-    @Body('body') body: CreateTransactionDto,
+    @Body() createTransactionDto: CreateTransactionDto,
   ): Promise<TransactionDto> {
     return TransactionDto.fromTransaction(
-      await this.transactionsService.create(body),
+      await this.transactionsService.create(createTransactionDto),
     );
   }
 

@@ -34,6 +34,7 @@ const transactionsPath: OpenAPIV3.PathsObject = {
                   amount: { type: 'number' },
                   userId: { type: 'number' },
                   paymentMethod: { type: 'string' },
+                  timestamp: { type: 'string' },
                 },
               },
             },
@@ -54,12 +55,13 @@ const transactionsPath: OpenAPIV3.PathsObject = {
                 type: 'array',
                 items: {
                   type: 'object',
-                  required: ['id', 'amount', 'userId', 'paymentMethod', 'code'],
+                  required: ['id', 'amount', 'userId', 'paymentMethod'],
                   properties: {
                     id: { type: 'integer' },
                     amount: { type: 'number' },
                     userId: { type: 'number' },
                     paymentMethod: { type: 'string' },
+                    timestamp: { type: 'string' },
                   },
                 },
               },
